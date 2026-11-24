@@ -122,9 +122,13 @@ class BukuController extends Controller
         $semuaBuku->put($bukuLama['kode'], $bukuBaru);
         $this->simpanSemuaBuku($semuaBuku);
 
+        $namaBuku = $bukuLama['judul'] === $bukuBaru['judul']
+            ? "\"{$bukuBaru['judul']}\""
+            : "\"{$bukuLama['judul']}\" -> \"{$bukuBaru['judul']}\"";
+
         return redirect()
             ->route('buku.index')
-            ->with('sukses', "Buku \"{$bukuBaru['judul']}\" berhasil diperbarui.");
+            ->with('sukses', "Buku {$namaBuku} berhasil diperbarui.");
     }
 
     /**

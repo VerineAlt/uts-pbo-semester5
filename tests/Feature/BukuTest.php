@@ -89,6 +89,16 @@ it('memperbarui buku tanpa mengubah kode', function () {
     expect(session('buku'))->not->toHaveKey('HACK');
 });
 
+it('menampilkan nama lama dan baru pada pesan jika judul berubah', function () {
+    $this->put(route('buku.update', 'BK-003'), dataBukuValid(['judul' => 'Clean Code Edisi 2']))
+        ->assertSessionHas('sukses', 'Buku "Clean Code" -> "Clean Code Edisi 2" berhasil diperbarui.');
+});
+
+it('hanya menampilkan nama buku pada pesan jika judul tidak berubah', function () {
+    $this->put(route('buku.update', 'BK-003'), dataBukuValid(['judul' => 'Clean Code', 'deskripsi' => 'Deskripsi baru.']))
+        ->assertSessionHas('sukses', 'Buku "Clean Code" berhasil diperbarui.');
+});
+
 it('menghapus buku dari session', function () {
     $this->delete(route('buku.destroy', 'BK-002'))
         ->assertRedirect(route('buku.index'))
